@@ -18,6 +18,8 @@ find_package(kindr REQUIRED)
 if(NOT TARGET ${ct_optcon})
 	find_package(ct_optcon REQUIRED)
 endif()
+find_package(blasfeo)
+find_package(hpipm)
 
 # extract interface compile definitions from ct_core and ct_optcon as options
 importInterfaceCompileDefinitionsAsOptions(ct_core)
@@ -46,7 +48,7 @@ set(ct_rbd_target_include_dirs
 ## create ct_rbd library
 add_library(ct_rbd INTERFACE)
 target_include_directories(ct_rbd INTERFACE ${ct_rbd_target_include_dirs})
-target_link_libraries(ct_rbd INTERFACE ct_optcon)
+target_link_libraries(ct_rbd INTERFACE ct_optcon blasfeo hpipm)
 
 set(ct_rbd ct_rbd CACHE INTERNAL "ct_rbd library target.")
 
