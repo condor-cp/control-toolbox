@@ -18,3 +18,4 @@ Licensed under the BSD-2 license (see LICENSE file in main directory)
 #include "SteadyStateKalmanFilter.h"
 #include "SystemModelBase.h"
 #include "UnscentedKalmanFilter.h"
+#include "EstimatorStateBoxConstraint.h"

@@ -13,3 +13,4 @@ Licensed under the BSD-2 license (see LICENSE file in main directory)
 #include "ExtendedKalmanFilter-impl.h"
 #include "SteadyStateKalmanFilter-impl.h"
 #include "UnscentedKalmanFilter-impl.h"
+#include "EstimatorStateBoxConstraint-impl.h"
