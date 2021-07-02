@@ -1,0 +1,16 @@
+{
+    "name": "ct-dev-cont",
+    // The order of the files is important since later files override previous ones
+    "dockerComposeFile": [
+        "docker-compose.yml",
+        "docker-compose.extend.yml"
+    ],
+    "service": "ct_devenv",
+    "workspaceFolder": "/control-toolbox/",
+    "shutdownAction": "stopCompose",
+    "extensions": [
+        "ms-vscode.cpptools",
+        "xaver.clang-format",
+        "ms-vscode.cmake-tools"
+    ]
+}
