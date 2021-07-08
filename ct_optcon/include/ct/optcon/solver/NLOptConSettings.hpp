@@ -250,7 +250,7 @@ public:
         HPIPM_SOLVER = 1
     };
 
-    using APPROXIMATION = typename core::SensitivityApproximationSettings::APPROXIMATION;
+    using APPROXIMATION = typename core::SensitivityApproximationSettings<double>::APPROXIMATION;
 
     //! NLOptCon Settings default constructor
     /*!
