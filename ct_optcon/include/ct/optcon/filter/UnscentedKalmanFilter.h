@@ -155,6 +155,9 @@ public:
     template <size_t DIM>
     Eigen::Matrix<SCALAR, DIM, 1> computePredictionFromSigmaPoints(const SigmaPoints<DIM>& sigmaPoints);
 
+    void setCovarianceMatrix(const state_matrix_t& P) { P_ = P; }
+    state_matrix_t getCovarianceMatrix() const { return P_; }
+
 private:
     Eigen::Matrix<SCALAR, SigmaPointCount, 1> sigmaWeights_m_;  //! Sigma measurement weights.
     Eigen::Matrix<SCALAR, SigmaPointCount, 1> sigmaWeights_c_;  //! Sigma covariance weights.
