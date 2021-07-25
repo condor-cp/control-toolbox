@@ -50,7 +50,7 @@ public:
 
     virtual void solveSingleStage(int N) override;
 
-    virtual void configure(const NLOptConSettings& settings) override;
+    virtual void configure(const NLOptConSettings<SCALAR>& settings) override;
 
     virtual void computeStatesAndControls() override;
 
@@ -77,7 +77,7 @@ protected:
 
     void logToMatlab();
 
-    NLOptConSettings settings_;
+    NLOptConSettings<SCALAR> settings_;
 
     ControlVectorArray gv_;
     FeedbackArray G_;

@@ -53,7 +53,7 @@ public:
     static const size_t state_dim = STATE_DIM;
     static const size_t control_dim = CONTROL_DIM;
 
-    typedef NLOptConSettings Settings_t;
+    typedef NLOptConSettings<SCALAR> Settings_t;
 
     typedef typename ct::core::StateFeedbackController<STATE_DIM, CONTROL_DIM, SCALAR> Policy_t;
 
@@ -515,8 +515,7 @@ protected:
 
 
     //! in case of line-search compute new merit and check if to accept step. Returns true if accept step
-    bool acceptStep(
-        const SCALAR alpha,
+    bool acceptStep(const SCALAR alpha,
         const SCALAR intermediateCost,
         const SCALAR finalCost,
         const SCALAR defectNorm,

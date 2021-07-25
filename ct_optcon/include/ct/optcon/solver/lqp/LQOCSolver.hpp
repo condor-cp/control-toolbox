@@ -45,7 +45,7 @@ public:
         lqocProblem_ = lqocProblem;
     }
 
-    virtual void configure(const NLOptConSettings& settings) = 0;
+    virtual void configure(const NLOptConSettings<SCALAR>& settings) = 0;
 
     //! setup and configure the box constraints
     // return true if configuration changed, otherwise false

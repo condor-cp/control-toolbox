@@ -186,7 +186,7 @@ int main(int argc, char** argv)
     /* STEP 2: set up a nonlinear optimal control solver. */
 
     /* STEP 2-A: Create the settings. */
-    ct::optcon::NLOptConSettings nloc_settings;
+    ct::optcon::NLOptConSettings<> nloc_settings;
     nloc_settings.load(ct::optcon::exampleDir + "/nlocSolver_ObstacleConstraint.info", true, "ilqr");
 
     /* STEP 2-B: provide an initial guess */

@@ -46,7 +46,7 @@ public:
     typedef std::shared_ptr<constant_controller_t> ConstantControllerPtr;
 
     typedef OPTCONPROBLEM optConProblem_t;
-    typedef NLOptConSettings settings_t;
+    typedef NLOptConSettings<SCALAR> settings_t;
 
     //! constructor
     OptconSystemInterface(const optConProblem_t& problem, const settings_t& settings)

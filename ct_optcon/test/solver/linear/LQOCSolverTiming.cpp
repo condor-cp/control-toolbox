@@ -29,7 +29,7 @@ void timeSingleSolve(size_t N, std::vector<std::vector<double>>& loggedSolveTime
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> gnRiccatiSolver(new GNRiccatiSolver<state_dim, control_dim>());
     std::vector<std::string> solverNames = {"Riccati", "HPIPM"};
 
-    NLOptConSettings solverSettings;
+    NLOptConSettings<SCALAR> solverSettings;
     solverSettings.fixedHessianCorrection = true;
     solverSettings.epsilon = 0;
     solverSettings.recordSmallestEigenvalue = false;

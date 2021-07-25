@@ -55,7 +55,8 @@ Eigen::Matrix<ct::core::ADCGScalar, Eigen::Dynamic, 1> StateConstraint<STATE_DIM
     const core::ControlVector<CONTROL_DIM, ct::core::ADCGScalar>& u,
     ct::core::ADCGScalar t)
 {
-    return this->sparsity_J_.template cast<ct::core::ADCGScalar>() * x;
+    throw std::runtime_error("StateConstraint has no Implementation of evaluateCppaCg.");
+    // return this->sparsity_J_.template cast<ct::core::ADCGScalar>() * x;
 }
 #endif
 

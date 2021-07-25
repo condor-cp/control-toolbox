@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
         std::shared_ptr<IPSystem> ipSystem(new IPSystem(actuatorDynamics));
 
         // NLOC settings
-        ct::optcon::NLOptConSettings nloc_settings;
+        ct::optcon::NLOptConSettings<> nloc_settings;
         nloc_settings.load(configFile, verbose, "ilqr");
 
         std::shared_ptr<ct::optcon::TermQuadratic<IPSystem::STATE_DIM, IPSystem::CONTROL_DIM>> termQuadInterm(
@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
         InvertedPendulumNLOC::StateVectorArray x_nloc = initialSolution.x_ref();
 
 
-        ct::optcon::NLOptConSettings ilqr_settings_mpc(nloc_solver.getSettings());
+        ct::optcon::NLOptConSettings<> ilqr_settings_mpc(nloc_solver.getSettings());
         ilqr_settings_mpc.max_iterations = 1;
         ilqr_settings_mpc.printSummary = false;
 

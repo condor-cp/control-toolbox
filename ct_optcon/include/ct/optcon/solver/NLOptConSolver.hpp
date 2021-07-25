@@ -29,7 +29,7 @@ template <size_t STATE_DIM,
 class NLOptConSolver final
     : public OptConSolver<NLOptConSolver<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>,
           typename NLOCAlgorithm<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::Policy_t,
-          NLOptConSettings,
+          NLOptConSettings<SCALAR>,
           STATE_DIM,
           CONTROL_DIM,
           SCALAR,
@@ -45,7 +45,7 @@ public:
 
     typedef OptConSolver<NLOptConSolver<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>,
         typename NLOCAlgorithm<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::Policy_t,
-        NLOptConSettings,
+        NLOptConSettings<SCALAR>,
         STATE_DIM,
         CONTROL_DIM,
         SCALAR,
@@ -53,7 +53,7 @@ public:
         Base;
 
 
-    typedef NLOptConSettings Settings_t;
+    typedef NLOptConSettings<SCALAR> Settings_t;
     typedef SCALAR Scalar_t;
 
     typedef typename Base::OptConProblem_t OptConProblem_t;

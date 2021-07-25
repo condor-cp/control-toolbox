@@ -128,16 +128,16 @@ int main(int argc, char** argv)
 	 * the type of solver, and most parameters, like number of shooting intervals, etc.,
 	 * can be chosen using the following settings struct. Let's use, the iterative
 	 * linear quadratic regulator, iLQR, for this example. In the following, we
-	 * modify only a few settings, for more detail, check out the NLOptConSettings class. */
-    NLOptConSettings ilqr_settings;
+	 * modify only a few settings, for more detail, check out the NLOptConSettings<> class. */
+    NLOptConSettings<> ilqr_settings;
     ilqr_settings.dt = 0.01;  // the control discretization in [sec]
     ilqr_settings.integrator = ct::core::IntegrationType::EULERCT;
-    ilqr_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
+    ilqr_settings.discretization = NLOptConSettings<>::APPROXIMATION::FORWARD_EULER;
     ilqr_settings.max_iterations = 10;
     ilqr_settings.nThreads = 1;
-    ilqr_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::GNMS;
-    ilqr_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::HPIPM_SOLVER;  // solve LQ-problems using HPIPM
-    ilqr_settings.lqoc_solver_settings.num_lqoc_iterations = 200;                // number of riccati sub-iterations
+    ilqr_settings.nlocp_algorithm = NLOptConSettings<>::NLOCP_ALGORITHM::GNMS;
+    ilqr_settings.lqocp_solver = NLOptConSettings<>::LQOCP_SOLVER::HPIPM_SOLVER;  // solve LQ-problems using HPIPM
+    ilqr_settings.lqoc_solver_settings.num_lqoc_iterations = 200;                 // number of riccati sub-iterations
     ilqr_settings.printSummary = true;
 
 

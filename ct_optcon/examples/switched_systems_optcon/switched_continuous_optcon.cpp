@@ -130,18 +130,18 @@ int main(int argc, char** argv)
 
     /* STEP 2-A: Create the settings.
     * the type of solver, and most parameters, like number of shooting intervals, etc.,
-    * can be chosen using the following settings struct. For more detail, check out the NLOptConSettings class. */
-    NLOptConSettings ilqr_settings;
+    * can be chosen using the following settings struct. For more detail, check out the NLOptConSettings<SCALAR> class. */
+    NLOptConSettings<SCALAR> ilqr_settings;
     ilqr_settings.dt = 0.001;  // the control discretization in [sec]
     ilqr_settings.integrator = ct::core::IntegrationType::EULERCT;
-    ilqr_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
+    ilqr_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
     ilqr_settings.max_iterations = 100;
     ilqr_settings.min_cost_improvement = 1e-6;
     ilqr_settings.meritFunctionRhoConstraints = 10;
     ilqr_settings.nThreads = 4;
-    ilqr_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::GNMS;
-    ilqr_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::HPIPM_SOLVER;  // solve LQ-problems using HPIPM
-    ilqr_settings.lqoc_solver_settings.num_lqoc_iterations = 1000;              // number of riccati sub-iterations
+    ilqr_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::GNMS;
+    ilqr_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::HPIPM_SOLVER;  // solve LQ-problems using HPIPM
+    ilqr_settings.lqoc_solver_settings.num_lqoc_iterations = 1000;  // number of riccati sub-iterations
     ilqr_settings.lineSearchSettings.type = LineSearchSettings::TYPE::SIMPLE;
     ilqr_settings.lineSearchSettings.debugPrint = true;
     ilqr_settings.printSummary = true;

@@ -46,7 +46,7 @@ void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::solveSingleStage(int N)
 
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
-void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::configure(const NLOptConSettings& settings)
+void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::configure(const NLOptConSettings<SCALAR>& settings)
 {
     settings_ = settings;
     H_corrFix_ = settings_.epsilon * ControlMatrix::Identity();

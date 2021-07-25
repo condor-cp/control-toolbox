@@ -207,7 +207,7 @@ public:
 private:
     bool timeVarying_;
     bool symplectic_;
-    double dt_;
+    SCALAR dt_;
     size_t substep_;
     size_t k_;
 
@@ -354,8 +354,8 @@ private:
         throw std::runtime_error("Cannot compute sensitivities for symplectic system with these dimensions.");
     }
 };
-}
-}
+}  // namespace core
+}  // namespace ct
 
 
 #undef SYMPLECTIC_ENABLED

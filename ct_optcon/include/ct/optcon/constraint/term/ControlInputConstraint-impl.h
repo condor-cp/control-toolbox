@@ -59,7 +59,8 @@ ControlInputConstraint<STATE_DIM, CONTROL_DIM, SCALAR>::evaluateCppadCg(
     const core::ControlVector<CONTROL_DIM, ct::core::ADCGScalar>& u,
     ct::core::ADCGScalar t)
 {
-    return this->sparsity_J_.template cast<ct::core::ADCGScalar>() * u;
+    throw std::runtime_error("ControlInputConstraint has no Implementation of evaluateCppaCg.");
+    // return this->sparsity_J_.template cast<ct::core::ADCGScalar>() * u;
 }
 #endif
 

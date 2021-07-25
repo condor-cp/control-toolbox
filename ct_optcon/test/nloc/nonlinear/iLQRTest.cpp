@@ -27,7 +27,7 @@ TEST(ILQRTestA, InstancesComparison)
     {
         typedef NLOptConSolver<state_dim, control_dim> NLOptConSolver;
 
-        NLOptConSettings ilqr_settings;
+        NLOptConSettings<SCALAR> ilqr_settings;
         ilqr_settings.dt = 0.001;
         ilqr_settings.K_shot = 1;
         ilqr_settings.K_sim = 1;
@@ -37,9 +37,9 @@ TEST(ILQRTestA, InstancesComparison)
         ilqr_settings.recordSmallestEigenvalue = false;
         ilqr_settings.fixedHessianCorrection = false;
         ilqr_settings.min_cost_improvement = 1e-12;
-        ilqr_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
-        ilqr_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::ILQR;
-        ilqr_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::GNRICCATI_SOLVER;
+        ilqr_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
+        ilqr_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR;
+        ilqr_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER;
         ilqr_settings.integrator = ct::core::IntegrationType::EULER;
         ilqr_settings.printSummary = false;
         ilqr_settings.debugPrint = false;
@@ -50,7 +50,7 @@ TEST(ILQRTestA, InstancesComparison)
 
 
         // copy settings for MP case, but change number of threads
-        NLOptConSettings ilqr_settings_mp = ilqr_settings;
+        NLOptConSettings<SCALAR> ilqr_settings_mp = ilqr_settings;
         ilqr_settings_mp.nThreads = 4;
 
         shared_ptr<ControlledSystem<state_dim, control_dim>> nonlinearSystem(new Dynamics());
@@ -187,22 +187,22 @@ TEST(ILQRTestB, MultiThreadingTest)
 
         std::string costFunctionFile = std::string(NLOC_TEST_DIR) + "/nonlinear/cost.info";
 
-        NLOptConSettings ilqr_settings;
+        NLOptConSettings<SCALAR> ilqr_settings;
         ilqr_settings.epsilon = 0.0;
         ilqr_settings.nThreads = 1;
         ilqr_settings.max_iterations = 50;
         ilqr_settings.recordSmallestEigenvalue = false;
         ilqr_settings.fixedHessianCorrection = false;
         ilqr_settings.min_cost_improvement = 1e-6;
-        ilqr_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
-        ilqr_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::ILQR;
-        ilqr_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::GNRICCATI_SOLVER;
+        ilqr_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
+        ilqr_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR;
+        ilqr_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER;
         ilqr_settings.integrator = ct::core::IntegrationType::RK4;
         ilqr_settings.printSummary = false;
 
 
         // copy settings for MP case, but change number of threads
-        NLOptConSettings ilqr_settings_mp = ilqr_settings;
+        NLOptConSettings<SCALAR> ilqr_settings_mp = ilqr_settings;
         ilqr_settings_mp.nThreads = 4;
 
         shared_ptr<ControlledSystem<state_dim, control_dim>> nonlinearSystem(new Dynamics());
@@ -330,7 +330,7 @@ TEST(ILQRTestB, MultiThreadingTest)
                     state_matrix_t A_analytic;
                     state_control_matrix_t B_analytic;
 
-                    if (ilqr_settings.discretization == NLOptConSettings::APPROXIMATION::FORWARD_EULER)
+                    if (ilqr_settings.discretization == NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER)
                     {
                         A_analytic =
                             state_matrix_t::Identity() +
@@ -338,7 +338,7 @@ TEST(ILQRTestB, MultiThreadingTest)
                         B_analytic =
                             ilqr_settings.dt * analyticLinearSystem->getDerivativeControl(xRollout[j], uRollout[j], 0);
                     }
-                    else if (ilqr_settings.discretization == NLOptConSettings::APPROXIMATION::BACKWARD_EULER)
+                    else if (ilqr_settings.discretization == NLOptConSettings<SCALAR>::APPROXIMATION::BACKWARD_EULER)
                     {
                         state_matrix_t aNew =
                             ilqr_settings.dt * analyticLinearSystem->getDerivativeState(xRollout[j], uRollout[j], 0);
@@ -349,7 +349,7 @@ TEST(ILQRTestB, MultiThreadingTest)
                         B_analytic = aNewInv * ilqr_settings.dt *
                                      analyticLinearSystem->getDerivativeControl(xRollout[j], uRollout[j], 0);
                     }
-                    else if (ilqr_settings.discretization == NLOptConSettings::APPROXIMATION::TUSTIN)
+                    else if (ilqr_settings.discretization == NLOptConSettings<SCALAR>::APPROXIMATION::TUSTIN)
                     {
                         state_matrix_t aNew = 0.5 * ilqr_settings.dt *
                                               analyticLinearSystem->getDerivativeState(xRollout[j], uRollout[j], 0);
@@ -396,21 +396,21 @@ TEST(ILQRTestC, PolicyComparison)
     {
         std::string costFunctionFile = std::string(NLOC_TEST_DIR) + "/nonlinear/cost.info";
 
-        NLOptConSettings ilqr_settings;
+        NLOptConSettings<SCALAR> ilqr_settings;
         ilqr_settings.epsilon = 0.0;
         ilqr_settings.nThreads = 1;
         ilqr_settings.max_iterations = 50;
         ilqr_settings.recordSmallestEigenvalue = true;
         ilqr_settings.min_cost_improvement = 1e-6;
-        ilqr_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
-        ilqr_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::ILQR;
-        ilqr_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::GNRICCATI_SOLVER;
+        ilqr_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
+        ilqr_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR;
+        ilqr_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER;
         ilqr_settings.integrator = ct::core::IntegrationType::EULER;
         ilqr_settings.fixedHessianCorrection = false;
         ilqr_settings.printSummary = false;
 
 
-        NLOptConSettings ilqr_settings_mp = ilqr_settings;
+        NLOptConSettings<SCALAR> ilqr_settings_mp = ilqr_settings;
         ilqr_settings_mp.nThreads = 4;
 
 

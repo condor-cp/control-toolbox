@@ -50,13 +50,13 @@ int main(int argc, char** argv)
         timeHorizon, x0, oscillatorDynamics, costFunction, adLinearizer);
 
 
-    NLOptConSettings ilqr_settings;
+    NLOptConSettings<SCALAR> ilqr_settings;
     ilqr_settings.dt = 0.01;  // the control discretization in [sec]
     ilqr_settings.integrator = ct::core::IntegrationType::EULERCT;
-    ilqr_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
+    ilqr_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
     ilqr_settings.max_iterations = 10;
-    ilqr_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::ILQR;
-    ilqr_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::
+    ilqr_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR;
+    ilqr_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::
         GNRICCATI_SOLVER;  // the LQ-problems are solved using a custom Gauss-Newton Riccati solver
     ilqr_settings.printSummary = true;
 
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 
     // 1) settings for the iLQR instance used in MPC. Of course, we use the same settings
     // as for solving the initial problem ...
-    NLOptConSettings ilqr_settings_mpc = ilqr_settings;
+    NLOptConSettings<SCALAR> ilqr_settings_mpc = ilqr_settings;
     // ... however, in MPC-mode, it makes sense to limit the overall number of iLQR iterations (real-time iteration scheme)
     ilqr_settings_mpc.max_iterations = 1;
     // and we limited the printouts, too.

@@ -44,10 +44,10 @@ TEST(NLOCTest, NonlinearSystemAlgorithmComparison)
     Eigen::Matrix<double, 1, 1> x_f;
     ct::core::loadMatrix(costFunctionFile, "term1.x_f.weigths.x_des", x_f);
 
-    NLOptConSettings gnms_settings;
+    NLOptConSettings<SCALAR> gnms_settings;
     gnms_settings.load(configFile, true, "gnms");
 
-    NLOptConSettings ilqr_settings;
+    NLOptConSettings<SCALAR> ilqr_settings;
     ilqr_settings.load(configFile, true, "ilqr");
 
     std::shared_ptr<ControlledSystem<state_dim, control_dim>> nonlinearSystem(new Dynamics);

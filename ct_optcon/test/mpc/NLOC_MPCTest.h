@@ -53,14 +53,14 @@ TEST(MPCTestA, ForwardIntegratorTest)
         optConProblem.setTimeHorizon(timeHorizon);
 
         // FIRST ILQR INSTANCE FOR CALCULATING THE 'PERFECT' INITIAL GUESS
-        NLOptConSettings nloc_settings;
+        NLOptConSettings<SCALAR> nloc_settings;
         nloc_settings.dt = 0.001;
         nloc_settings.K_sim = 1;  //! required for this test
         nloc_settings.max_iterations = 100;
         nloc_settings.integrator = ct::core::IntegrationType::EULER;
-        nloc_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
-        nloc_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::ILQR;
-        nloc_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::GNRICCATI_SOLVER;
+        nloc_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
+        nloc_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR;
+        nloc_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER;
         nloc_settings.printSummary = false;
 
         // number of steps
@@ -186,14 +186,14 @@ TEST(MPCTestB, NLOC_MPC_DoublePrecision)
 
             // FIRST ILQR INSTANCE FOR CALCULATING THE 'PERFECT' INITIAL GUESS
 
-            NLOptConSettings nloc_settings;
+            NLOptConSettings<SCALAR> nloc_settings;
             nloc_settings.dt = 0.01;
             nloc_settings.K_sim = 1;
             nloc_settings.K_shot = 1;
             nloc_settings.max_iterations = 10;
             nloc_settings.min_cost_improvement = 1e-10;  // strict bounds to reach a solution very close to optimality
-            nloc_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
-            nloc_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::GNRICCATI_SOLVER;
+            nloc_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
+            nloc_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER;
             nloc_settings.integrator = ct::core::IntegrationType::EULER;
             nloc_settings.lineSearchSettings.type = LineSearchSettings::TYPE::SIMPLE;
             nloc_settings.nThreads = 1;
@@ -203,9 +203,9 @@ TEST(MPCTestB, NLOC_MPC_DoublePrecision)
 
 
             if (solverType == 0)
-                nloc_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::ILQR;
+                nloc_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR;
             else
-                nloc_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::GNMS;
+                nloc_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::GNMS;
 
 
             int K = nloc_settings.computeK(timeHorizon);  // number of steps
@@ -230,7 +230,7 @@ TEST(MPCTestB, NLOC_MPC_DoublePrecision)
                 perfectInitController.getReferenceStateTrajectory();
 
             // settings for the ilqr instance used in MPC
-            NLOptConSettings nloc_settings_mpc = nloc_settings;
+            NLOptConSettings<SCALAR> nloc_settings_mpc = nloc_settings;
             nloc_settings_mpc.max_iterations = 1;
 
             // mpc specific settings

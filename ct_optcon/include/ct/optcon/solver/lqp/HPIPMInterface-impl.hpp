@@ -61,7 +61,7 @@ void createConstraintsMasks(const int num_con, B& lb, B& ub, M& lb_mask, M& ub_m
 template <int STATE_DIM, int CONTROL_DIM>
 HPIPMInterface<STATE_DIM, CONTROL_DIM>::HPIPMInterface()
     : N_(-1),
-      settings_(NLOptConSettings()),
+      settings_(NLOptConSettings<>()),
       dim_mem_(nullptr),
       qp_mem_(nullptr),
       qp_sol_mem_(nullptr),
@@ -187,7 +187,7 @@ void HPIPMInterface<STATE_DIM, CONTROL_DIM>::freeHpipmMemory()
 
 
 template <int STATE_DIM, int CONTROL_DIM>
-void HPIPMInterface<STATE_DIM, CONTROL_DIM>::configure(const NLOptConSettings& settings)
+void HPIPMInterface<STATE_DIM, CONTROL_DIM>::configure(const NLOptConSettings<>& settings)
 {
     settings_ = settings;
     ::d_ocp_qp_ipm_arg_set_iter_max(&settings_.lqoc_solver_settings.num_lqoc_iterations, &arg_);

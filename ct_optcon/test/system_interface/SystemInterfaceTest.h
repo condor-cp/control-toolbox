@@ -41,7 +41,7 @@ TEST(SystemInterfaceTest, ContinuousSystemInterface)
     OptConProblem_t optConProblem(nonlinearSystem, costFunction, analyticLinearSystem);
 
     // settings
-    NLOptConSettings nloc_settings;
+    NLOptConSettings<SCALAR> nloc_settings;
     nloc_settings.dt = 0.01;
 
     // toggle sensitivity integrator

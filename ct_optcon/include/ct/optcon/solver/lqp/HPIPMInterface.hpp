@@ -70,7 +70,7 @@ public:
     //! destructor
     virtual ~HPIPMInterface();
 
-    virtual void configure(const NLOptConSettings& settings) override;
+    virtual void configure(const NLOptConSettings<>& settings) override;
 
     void solve() override;
 
@@ -234,7 +234,7 @@ private:
     std::vector<double*> hlus_;
 
     //! settings from NLOptConSolver
-    NLOptConSettings settings_;
+    NLOptConSettings<> settings_;
 
     //! ocp qp dimensions
     int dim_size_;

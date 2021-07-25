@@ -12,7 +12,7 @@ namespace optcon {
 template <size_t STATE_DIM, size_t CONTROL_DIM, size_t P_DIM, size_t V_DIM, typename SCALAR, bool CONTINUOUS>
 NLOCBackendMP<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::NLOCBackendMP(
     const OptConProblem_t& optConProblem,
-    const NLOptConSettings& settings)
+    const NLOptConSettings<SCALAR> settings)
     : Base(optConProblem, settings)
 {
     startupRoutine();
@@ -502,10 +502,10 @@ void NLOCBackendMP<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::li
             intermediateCost, finalCost, defectNorm, e_box_norm, e_gen_norm, *substepsX, *substepsU, &alphaBestFound_);
 
         lineSearchResultMutex_.lock();
-        
+
         // check for step acceptance and get new merit/cost
-        bool stepAccepted =
-            this->acceptStep(alpha, intermediateCost, finalCost, defectNorm, e_box_norm, e_gen_norm, lowestCostPrevious_, cost);
+        bool stepAccepted = this->acceptStep(
+            alpha, intermediateCost, finalCost, defectNorm, e_box_norm, e_gen_norm, lowestCostPrevious_, cost);
 
         if (stepAccepted)
         {

@@ -84,7 +84,7 @@ void boxConstraintsTest(ct::core::ControlVector<control_dim> u0,
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> hpipmSolver(new HPIPMInterface<state_dim, control_dim>);
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> gnRiccatiSolver(new GNRiccatiSolver<state_dim, control_dim>);
 
-    NLOptConSettings nloc_settings;
+    NLOptConSettings<SCALAR> nloc_settings;
     nloc_settings.lqoc_solver_settings.num_lqoc_iterations = 50;  // allow 50 iterations
     if (verbose)
         nloc_settings.lqoc_solver_settings.lqoc_debug_print = true;
@@ -313,7 +313,7 @@ void generalConstraintsTest(ct::core::ControlVector<control_dim> u0,
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> hpipmSolver(new HPIPMInterface<state_dim, control_dim>);
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> gnRiccatiSolver(new GNRiccatiSolver<state_dim, control_dim>);
 
-    NLOptConSettings nloc_settings;
+    NLOptConSettings<SCALAR> nloc_settings;
     nloc_settings.lqoc_solver_settings.num_lqoc_iterations = 50;  // allow 50 iterations
     hpipmSolver->configure(nloc_settings);
 
@@ -602,7 +602,7 @@ TEST(ConstrainedLQOCSolverTest, BoxConstraintUsingConstraintToolbox)
     // create instances of HPIPM and an unconstrained Gauss-Newton Riccati solver
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> hpipmSolver(new HPIPMInterface<state_dim, control_dim>);
 
-    NLOptConSettings nloc_settings;
+    NLOptConSettings<SCALAR> nloc_settings;
     nloc_settings.lqoc_solver_settings.num_lqoc_iterations = 50;  // allow 50 iterations
     if (verbose)
         nloc_settings.lqoc_solver_settings.lqoc_debug_print = true;

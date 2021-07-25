@@ -30,7 +30,7 @@ public:
     typedef NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS> Base;
     typedef typename Base::OptConProblem_t OptConProblem_t;
 
-    NLOCBackendST(const OptConProblem_t& optConProblem, const NLOptConSettings& settings);
+    NLOCBackendST(const OptConProblem_t& optConProblem, const NLOptConSettings<SCALAR> settings);
 
     NLOCBackendST(const OptConProblem_t& optConProblem,
         const std::string& settingsFile,

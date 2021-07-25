@@ -51,7 +51,7 @@ int main(int argc, char** argv)
     bool verbose = true;
     intermediateCost->loadConfigFile(ct::optcon::exampleDir + "/nlocCost.info", "intermediateCost", verbose);
     finalCost->loadConfigFile(ct::optcon::exampleDir + "/nlocCost.info", "finalCost", verbose);
- 
+
     // Since we are using quadratic cost function terms in this example, the first and second order derivatives are immediately known and we
     // define the cost function to be an "Analytical Cost Function". Let's create the corresponding object and add the previously loaded
     // intermediate and final term.
@@ -80,8 +80,8 @@ int main(int argc, char** argv)
 	 * the type of solver, and most parameters, like number of shooting intervals, etc.,
 	 * can be chosen using the following settings struct. Let's use, the iterative
 	 * linear quadratic regulator, iLQR, for this example. In the following, we
-	 * modify only a few settings, for more detail, check out the NLOptConSettings class. */
-    NLOptConSettings nloc_settings;
+	 * modify only a few settings, for more detail, check out the NLOptConSettings<SCALAR> class. */
+    NLOptConSettings<SCALAR> nloc_settings;
     nloc_settings.load(ct::optcon::exampleDir + "/nlocSolver.info", true, "ilqr");
 
 

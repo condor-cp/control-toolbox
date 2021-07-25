@@ -36,7 +36,7 @@ public:
     typedef NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS> Base;
     typedef typename Base::OptConProblem_t OptConProblem_t;
 
-    NLOCBackendMP(const OptConProblem_t& optConProblem, const NLOptConSettings& settings);
+    NLOCBackendMP(const OptConProblem_t& optConProblem, const NLOptConSettings<SCALAR> settings);
 
 
     NLOCBackendMP(const OptConProblem_t& optConProblem,

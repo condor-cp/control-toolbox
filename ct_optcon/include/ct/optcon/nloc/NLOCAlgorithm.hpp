@@ -24,7 +24,7 @@ public:
     typedef ct::core::StateFeedbackController<STATE_DIM, CONTROL_DIM, SCALAR> Policy_t;
 
     typedef NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS> Backend_t;
-    typedef NLOptConSettings Settings_t;
+    typedef NLOptConSettings<SCALAR> Settings_t;
     typedef SCALAR Scalar_t;
 
     NLOCAlgorithm(const std::shared_ptr<Backend_t>& backend) : backend_(backend) {}

@@ -227,6 +227,7 @@ public:
  *
  * \brief Settings for the NLOptCon algorithm.
  */
+template <typename SCALAR = double>
 class NLOptConSettings
 {
 public:
@@ -250,7 +251,7 @@ public:
         HPIPM_SOLVER = 1
     };
 
-    using APPROXIMATION = typename core::SensitivityApproximationSettings<double>::APPROXIMATION;
+    using APPROXIMATION = typename core::SensitivityApproximationSettings<SCALAR>::APPROXIMATION;
 
     //! NLOptCon Settings default constructor
     /*!
@@ -290,14 +291,14 @@ public:
     NLOCP_ALGORITHM nlocp_algorithm;  //! which nonlinear optimal control algorithm is to be used
     LQOCP_SOLVER lqocp_solver;        //! the solver for the linear-quadratic optimal control problem
     std::string loggingPrefix;        //! the prefix to be stored before the matfile name for logging
-    double epsilon;                   //! Eigenvalue correction factor for Hessian regularization
-    double dt;                        //! sampling time for the control input (seconds)
+    SCALAR epsilon;                   //! Eigenvalue correction factor for Hessian regularization
+    SCALAR dt;                        //! sampling time for the control input (seconds)
     int K_sim;                        //! number of sub-integration-steps
     int K_shot;                       //! duration of a shot as an integer multiple of dt
-    double min_cost_improvement;      //! minimum cost improvement between two interations to assume convergence
-    double maxDefectSum;              //! maximum sum of squared defects (assume covergence if lower than this number)
-    double meritFunctionRho;          //! trade off between internal (defect)constraint violation and cost
-    double meritFunctionRhoConstraints;  //! trade off between external (general and path) constraint violation and cost
+    SCALAR min_cost_improvement;      //! minimum cost improvement between two interations to assume convergence
+    SCALAR maxDefectSum;              //! maximum sum of squared defects (assume covergence if lower than this number)
+    SCALAR meritFunctionRho;          //! trade off between internal (defect)constraint violation and cost
+    SCALAR meritFunctionRhoConstraints;  //! trade off between external (general and path) constraint violation and cost
     int max_iterations;  //! the maximum admissible number of NLOptCon main iterations \warning make sure to select this number high enough allow for convergence
     bool fixedHessianCorrection;    //! perform Hessian regularization by incrementing the eigenvalues by epsilon.
     bool recordSmallestEigenvalue;  //! save the smallest eigenvalue of the Hessian
@@ -329,7 +330,7 @@ public:
     }
 
     //! compute the simulation timestep
-    double getSimulationTimestep() const { return (dt / (double)K_sim); }
+    SCALAR getSimulationTimestep() const { return (dt / (SCALAR)K_sim); }
 
     //! return if this is a closed-loop shooting algorithm (or not)
     bool closedLoopShooting() const { return nlocAlgorithmToClosedLoopShooting.at(nlocp_algorithm); }
@@ -382,21 +383,21 @@ public:
     {
         if (dt <= 0)
         {
-            std::cout << "Invalid parameter dt in NLOptConSettings, needs to be > 0. dt currently is " << dt
+            std::cout << "Invalid parameter dt in NLOptConSettings<SCALAR> needs to be > 0. dt currently is " << dt
                       << std::endl;
             return false;
         }
 
         if (K_sim <= 0)
         {
-            std::cout << "Invalid parameter K_sim in NLOptConSettings, needs to be >= 1. K_sim currently is " << K_sim
-                      << std::endl;
+            std::cout << "Invalid parameter K_sim in NLOptConSettings<SCALAR> needs to be >= 1. K_sim currently is "
+                      << K_sim << std::endl;
             return false;
         }
 
         if (K_shot <= 0)
         {
-            std::cout << "Invalid parameter K_shot in NLOptConSettings, needs to be >= 1. K_shot currently is "
+            std::cout << "Invalid parameter K_shot in NLOptConSettings<SCALAR> needs to be >= 1. K_shot currently is "
                       << K_shot << std::endl;
             return false;
         }
@@ -653,11 +654,11 @@ public:
      * @param ns (optional) settings namespace
      * @return the newly generated settings struct
      */
-    static NLOptConSettings fromConfigFile(const std::string& filename,
+    static NLOptConSettings<SCALAR> fromConfigFile(const std::string& filename,
         bool verbose = true,
         const std::string& ns = "alg")
     {
-        NLOptConSettings settings;
+        NLOptConSettings<SCALAR> settings;
         settings.load(filename, true, ns);
         return settings;
     }

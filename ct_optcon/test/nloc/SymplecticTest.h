@@ -116,7 +116,7 @@ void symplecticTest()
     Eigen::Vector2d x_final;
     x_final << 2, 0;
 
-    NLOptConSettings gnms_settings;
+    NLOptConSettings<SCALAR> gnms_settings;
     gnms_settings.nThreads = 1;
     gnms_settings.epsilon = 0.0;
     gnms_settings.max_iterations = 1;
@@ -127,17 +127,17 @@ void symplecticTest()
     gnms_settings.K_sim = 50;
     gnms_settings.K_shot = 1;
     gnms_settings.integrator = ct::core::IntegrationType::EULER_SYM;
-    //	gnms_settings.discretization = NLOptConSettings::APPROXIMATION::FORWARD_EULER;
+    //	gnms_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
     gnms_settings.useSensitivityIntegrator = true;
-    gnms_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::GNMS;
-    gnms_settings.lqocp_solver = NLOptConSettings::LQOCP_SOLVER::GNRICCATI_SOLVER;
+    gnms_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::GNMS;
+    gnms_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER;
     gnms_settings.lineSearchSettings.type = LineSearchSettings::TYPE::NONE;
     gnms_settings.loggingPrefix = "GNMS";
     gnms_settings.printSummary = false;
 
 
-    NLOptConSettings ilqr_settings = gnms_settings;
-    ilqr_settings.nlocp_algorithm = NLOptConSettings::NLOCP_ALGORITHM::ILQR;
+    NLOptConSettings<SCALAR> ilqr_settings = gnms_settings;
+    ilqr_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR;
     ilqr_settings.loggingPrefix = "ILQR";
 
 

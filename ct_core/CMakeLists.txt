@@ -129,6 +129,7 @@ if(USE_PRESPEC)
     foreach(lib_name ${PRESPEC_LIB_NAMES})
         add_library(${lib_name} SHARED ${${lib_name}_SRCS})
         target_include_directories(${lib_name} PUBLIC ${ct_core_target_include_dirs})
+        target_compile_definitions(${lib_name} PUBLIC ${ct_core_COMPILE_DEFINITIONS})
     endforeach()
 endif()
 

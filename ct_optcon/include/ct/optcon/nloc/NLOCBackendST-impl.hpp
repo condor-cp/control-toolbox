@@ -12,7 +12,7 @@ namespace optcon {
 template <size_t STATE_DIM, size_t CONTROL_DIM, size_t P_DIM, size_t V_DIM, typename SCALAR, bool CONTINUOUS>
 NLOCBackendST<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::NLOCBackendST(
     const OptConProblem_t& optConProblem,
-    const NLOptConSettings& settings)
+    const NLOptConSettings<SCALAR> settings)
     : Base(optConProblem, settings)
 {
 }
@@ -109,8 +109,8 @@ SCALAR NLOCBackendST<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::
             intermediateCost, finalCost, defectNorm, e_box_norm, e_gen_norm, *substepsX, *substepsU);
 
         // compute new merit and check for step acceptance
-        bool stepAccepted =
-            this->acceptStep(alpha, intermediateCost, finalCost, defectNorm, e_box_norm, e_gen_norm, this->lowestCost_, cost);
+        bool stepAccepted = this->acceptStep(
+            alpha, intermediateCost, finalCost, defectNorm, e_box_norm, e_gen_norm, this->lowestCost_, cost);
 
         // catch the case that a rollout might be unstable
         if (!stepAccepted)

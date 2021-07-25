@@ -52,7 +52,7 @@ TEST(HPIPMInterfaceTest, compareSolvers)
     // create a continuous-time example system and discretize it
     std::shared_ptr<ct::core::LinearSystem<state_dim, control_dim>> system(new LinkedMasses());
     ct::core::SensitivityApproximation<state_dim, control_dim> discretizedSystem(
-        dt, system, ct::optcon::NLOptConSettings::APPROXIMATION::MATRIX_EXPONENTIAL);
+        dt, system, ct::optcon::NLOptConSettings<SCALAR>::APPROXIMATION::MATRIX_EXPONENTIAL);
 
     // initialize the linear quadratic optimal control problems
     lqocProblem_hpipm->setFromTimeInvariantLinearQuadraticProblem(discretizedSystem, costFunction, stateOffset, dt);

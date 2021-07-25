@@ -397,12 +397,12 @@ void NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::
     systemInterface_->configure(settings);
 
     // select the linear quadratic solver based on settings file
-    if (settings.lqocp_solver == NLOptConSettings::LQOCP_SOLVER::GNRICCATI_SOLVER)
+    if (settings.lqocp_solver == NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER)
     {
         lqocSolver_ = std::shared_ptr<GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>>(
             new GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>());
     }
-    else if (settings.lqocp_solver == NLOptConSettings::LQOCP_SOLVER::HPIPM_SOLVER)
+    else if (settings.lqocp_solver == NLOptConSettings<SCALAR>::LQOCP_SOLVER::HPIPM_SOLVER)
     {
 #ifdef HPIPM
         lqocSolver_ =
@@ -1393,9 +1393,9 @@ void NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::
     */
     switch (settings_.nlocp_algorithm)
     {
-        case NLOptConSettings::NLOCP_ALGORITHM::GNMS:
-        case NLOptConSettings::NLOCP_ALGORITHM::GNMS_M_OL:
-        case NLOptConSettings::NLOCP_ALGORITHM::SS_OL:
+        case NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::GNMS:
+        case NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::GNMS_M_OL:
+        case NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::SS_OL:
         {
             lqocSolver_->computeStatesAndControls();
             delta_u_ff_ = lqocSolver_->getSolutionControl();
@@ -1403,7 +1403,7 @@ void NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::
             delta_x_ref_lqr_.setConstant(ct::core::StateVector<STATE_DIM, SCALAR>::Zero());
             break;
         }
-        case NLOptConSettings::NLOCP_ALGORITHM::ILQR:
+        case NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR:
         {
             lqocSolver_->compute_lv();
             delta_u_ff_ = lqocSolver_->get_lv();
@@ -1413,7 +1413,7 @@ void NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::
             delta_x_ref_lqr_.setConstant(ct::core::StateVector<STATE_DIM, SCALAR>::Zero());
             break;
         }
-        case NLOptConSettings::NLOCP_ALGORITHM::MS_ILQR:
+        case NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::MS_ILQR:
         {
             lqocSolver_->computeStatesAndControls();
             delta_x_ = lqocSolver_->getSolutionState();
@@ -1424,8 +1424,8 @@ void NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::
             L_ = lqocSolver_->getSolutionFeedback();
             break;
         }
-        case NLOptConSettings::NLOCP_ALGORITHM::SS_CL:
-        case NLOptConSettings::NLOCP_ALGORITHM::GNMS_M_CL:
+        case NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::SS_CL:
+        case NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::GNMS_M_CL:
         {
             lqocSolver_->computeStatesAndControls();
             delta_u_ff_ = lqocSolver_->getSolutionControl();
