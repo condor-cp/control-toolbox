@@ -30,8 +30,8 @@ CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::CTSystemModel(
 template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
 auto CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::computeDynamics(const state_vector_t& state,
     const control_vector_t& u,
-    const Time_t dt,
-    Time_t t) -> state_vector_t
+    const SCALAR dt,
+    SCALAR t) -> state_vector_t
 {
     constantController_->setControl(u);
     state_vector_t x = state;
@@ -40,10 +40,11 @@ auto CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::computeDynamics(const state_
 }
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
-auto CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::computeDerivativeState(const state_vector_t& state,
+typename CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::state_matrix_t
+CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::computeDerivativeState(const state_vector_t& state,
     const control_vector_t& u,
-    const Time_t dt,
-    Time_t t) -> state_matrix_t
+    const SCALAR dt,
+    SCALAR t)
 {
     // local vars
     state_matrix_t A;
@@ -51,15 +52,19 @@ auto CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::computeDerivativeState(const
 
     sensApprox_->setTimeDiscretization(dt);
 
-    sensApprox_->getAandB(state, u, state, int(t / dt), 1, A, Btemp);
+    double t_double, dt_double;
+    t_double = ct::core::ADHelperFunctions::convert_to_scalar<double>(t);
+    dt_double = ct::core::ADHelperFunctions::convert_to_scalar<double>(dt);
+
+    sensApprox_->getAandB(state, u, state, int(t_double / dt_double), 1, A, Btemp);
     return A;
 }
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
 auto CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::computeDerivativeNoise(const state_vector_t& state,
     const control_vector_t& control,
-    const Time_t dt,
-    Time_t t) -> state_matrix_t
+    const SCALAR dt,
+    SCALAR t) -> state_matrix_t
 {
     return dFdv_;
 }
