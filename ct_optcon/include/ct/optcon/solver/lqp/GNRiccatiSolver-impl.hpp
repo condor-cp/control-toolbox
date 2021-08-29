@@ -152,7 +152,7 @@ void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::computeCostToGo(size_t k)
     S_[k].noalias() += p.A_[k].transpose() * S_[k + 1] * p.A_[k];
     S_[k].noalias() -= this->L_[k].transpose() * Hi_[k] * this->L_[k];
 
-    S_[k] = 0.5 * (S_[k] + S_[k].transpose()).eval();
+    S_[k] = SCALAR(0.5) * (S_[k] + S_[k].transpose()).eval();
 
     sv_[k] = p.qv_[k];
     sv_[k].noalias() += p.A_[k].transpose() * sv_[k + 1];
@@ -205,10 +205,10 @@ void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::designController(size_t k)
             // invert D
             ControlMatrix D_inverse = ControlMatrix::Zero();
             // eigenvalue-wise inversion
-            D_inverse.diagonal() = -1.0 * D.diagonal().cwiseInverse();
+            D_inverse.diagonal() = SCALAR(-1.0) * D.diagonal().cwiseInverse();
             ControlMatrix Hi_inverse_regular = V * D_inverse * V.transpose();
 
-            if (!Hi_inverse_[k].isApprox(Hi_inverse_regular, 1e-4))
+            if (!Hi_inverse_[k].isApprox(Hi_inverse_regular, SCALAR(1e-4)))
             {
                 std::cout << "warning, inverses not identical at " << k << std::endl;
                 std::cout << "Hi_inverse_fixed - Hi_inverse_regular: " << std::endl
@@ -248,7 +248,7 @@ void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::designController(size_t k)
         // invert D
         ControlMatrix D_inverse = ControlMatrix::Zero();
         // eigenvalue-wise inversion
-        D_inverse.diagonal() = -1.0 * D.diagonal().cwiseInverse();
+        D_inverse.diagonal() = SCALAR(-1.0) * D.diagonal().cwiseInverse();
         Hi_inverse_[k].noalias() = V * D_inverse * V.transpose();
 
         // calculate FB gain update

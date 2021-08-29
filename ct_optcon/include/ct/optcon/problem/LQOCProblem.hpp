@@ -193,7 +193,7 @@ public:
         ct::core::DiscreteLinearSystem<STATE_DIM, CONTROL_DIM, SCALAR>& linearSystem,
         ct::optcon::CostFunctionQuadratic<STATE_DIM, CONTROL_DIM, SCALAR>& costFunction,
         const ct::core::StateVector<STATE_DIM, SCALAR>& stateOffset,
-        const double dt);
+        const SCALAR dt);
 
     //! return a flag indicating whether this LQOC Problem is constrained or not
     bool isConstrained() const;

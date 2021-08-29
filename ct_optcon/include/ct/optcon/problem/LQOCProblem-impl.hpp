@@ -272,7 +272,7 @@ void LQOCProblem<STATE_DIM, CONTROL_DIM, SCALAR>::setFromTimeInvariantLinearQuad
     ct::core::DiscreteLinearSystem<STATE_DIM, CONTROL_DIM, SCALAR>& linearSystem,
     ct::optcon::CostFunctionQuadratic<STATE_DIM, CONTROL_DIM, SCALAR>& costFunction,
     const ct::core::StateVector<STATE_DIM, SCALAR>& offset,
-    const double dt)
+    const SCALAR dt)
 {
     setZero();
 
@@ -290,7 +290,7 @@ void LQOCProblem<STATE_DIM, CONTROL_DIM, SCALAR>::setFromTimeInvariantLinearQuad
     b_ = core::StateVectorArray<STATE_DIM, SCALAR>(K_ + 1, offset);
 
     // feed current state and control to cost function
-    costFunction.setCurrentStateAndControl(x0, u0, 0);
+    costFunction.setCurrentStateAndControl(x0, u0, SCALAR(0));
 
     // intermediate stage
     Q_ = core::StateMatrixArray<STATE_DIM, SCALAR>(K_ + 1, costFunction.stateSecondDerivativeIntermediate() * dt);
