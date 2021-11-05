@@ -38,8 +38,6 @@ solution.mat
 .settings/
 *.aux
 *.doc*
-*.vscode
-*.devcontainer
 
 */build/*
 !ct_doc/doc/html/ct_doc_placeholder.txt
