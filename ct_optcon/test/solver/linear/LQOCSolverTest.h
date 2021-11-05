@@ -40,7 +40,7 @@ TEST(LQOCSolverTest, compareHPIPMandRiccati)
     // create a continuous-time example system and discretize it
     std::shared_ptr<core::LinearSystem<state_dim, control_dim>> exampleSystem(new example::SpringLoadedMassLinear());
     core::SensitivityApproximation<state_dim, control_dim> discreteExampleSystem(
-        dt, exampleSystem, core::SensitivityApproximationSettings::APPROXIMATION::MATRIX_EXPONENTIAL);
+        dt, exampleSystem, core::SensitivityApproximationSettings<double>::APPROXIMATION::MATRIX_EXPONENTIAL);
 
     // nominal control
     ct::core::ControlVector<control_dim> u0;

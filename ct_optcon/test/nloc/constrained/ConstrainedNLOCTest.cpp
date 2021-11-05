@@ -134,14 +134,14 @@ public:
 // convenience function for generating an NLOC solver
 NLOptConSolver<state_dim, control_dim> generateSolver(ContinuousOptConProblem<state_dim, control_dim> ocp)
 {
-    NLOptConSettings<SCALAR> nloc_settings;
+    NLOptConSettings<double> nloc_settings;
     nloc_settings.dt = 0.01;  // the control discretization in [sec]
     nloc_settings.integrator = ct::core::IntegrationType::EULERCT;
-    nloc_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;
+    nloc_settings.discretization = NLOptConSettings<double>::APPROXIMATION::FORWARD_EULER;
     nloc_settings.max_iterations = 10;
     nloc_settings.nThreads = 1;
-    nloc_settings.nlocp_algorithm = NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::GNMS;
-    nloc_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::HPIPM_SOLVER;  // solve LQ-problems using HPIPM
+    nloc_settings.nlocp_algorithm = NLOptConSettings<double>::NLOCP_ALGORITHM::GNMS;
+    nloc_settings.lqocp_solver = NLOptConSettings<double>::LQOCP_SOLVER::HPIPM_SOLVER;  // solve LQ-problems using HPIPM
     nloc_settings.lqoc_solver_settings.num_lqoc_iterations = 100;  // number of riccati sub-iterations
     nloc_settings.printSummary = false;
     nloc_settings.lineSearchSettings.type = LineSearchSettings::TYPE::NONE;

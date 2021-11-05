@@ -84,7 +84,7 @@ void boxConstraintsTest(ct::core::ControlVector<control_dim> u0,
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> hpipmSolver(new HPIPMInterface<state_dim, control_dim>);
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> gnRiccatiSolver(new GNRiccatiSolver<state_dim, control_dim>);
 
-    NLOptConSettings<SCALAR> nloc_settings;
+    NLOptConSettings<double> nloc_settings;
     nloc_settings.lqoc_solver_settings.num_lqoc_iterations = 50;  // allow 50 iterations
     if (verbose)
         nloc_settings.lqoc_solver_settings.lqoc_debug_print = true;
@@ -98,7 +98,7 @@ void boxConstraintsTest(ct::core::ControlVector<control_dim> u0,
     // create a continuous-time example system and discretize it
     std::shared_ptr<core::LinearSystem<state_dim, control_dim>> exampleSystem(new LINEAR_SYSTEM());
     core::SensitivityApproximation<state_dim, control_dim> discreteExampleSystem(
-        dt, exampleSystem, core::SensitivityApproximationSettings::APPROXIMATION::MATRIX_EXPONENTIAL);
+        dt, exampleSystem, core::SensitivityApproximationSettings<double>::APPROXIMATION::MATRIX_EXPONENTIAL);
 
 
     // define cost function matrices
@@ -313,7 +313,7 @@ void generalConstraintsTest(ct::core::ControlVector<control_dim> u0,
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> hpipmSolver(new HPIPMInterface<state_dim, control_dim>);
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> gnRiccatiSolver(new GNRiccatiSolver<state_dim, control_dim>);
 
-    NLOptConSettings<SCALAR> nloc_settings;
+    NLOptConSettings<double> nloc_settings;
     nloc_settings.lqoc_solver_settings.num_lqoc_iterations = 50;  // allow 50 iterations
     hpipmSolver->configure(nloc_settings);
 
@@ -324,7 +324,7 @@ void generalConstraintsTest(ct::core::ControlVector<control_dim> u0,
     // create a continuous-time example system and discretize it
     std::shared_ptr<core::LinearSystem<state_dim, control_dim>> exampleSystem(new LINEAR_SYSTEM());
     core::SensitivityApproximation<state_dim, control_dim> discreteExampleSystem(
-        dt, exampleSystem, core::SensitivityApproximationSettings::APPROXIMATION::MATRIX_EXPONENTIAL);
+        dt, exampleSystem, core::SensitivityApproximationSettings<double>::APPROXIMATION::MATRIX_EXPONENTIAL);
 
 
     // define cost function matrices
@@ -602,7 +602,7 @@ TEST(ConstrainedLQOCSolverTest, BoxConstraintUsingConstraintToolbox)
     // create instances of HPIPM and an unconstrained Gauss-Newton Riccati solver
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> hpipmSolver(new HPIPMInterface<state_dim, control_dim>);
 
-    NLOptConSettings<SCALAR> nloc_settings;
+    NLOptConSettings<double> nloc_settings;
     nloc_settings.lqoc_solver_settings.num_lqoc_iterations = 50;  // allow 50 iterations
     if (verbose)
         nloc_settings.lqoc_solver_settings.lqoc_debug_print = true;
@@ -614,7 +614,7 @@ TEST(ConstrainedLQOCSolverTest, BoxConstraintUsingConstraintToolbox)
     // create a continuous-time example system and discretize it
     std::shared_ptr<core::LinearSystem<state_dim, control_dim>> exampleSystem(new LinkedMasses());
     core::SensitivityApproximation<state_dim, control_dim> discreteExampleSystem(
-        dt, exampleSystem, core::SensitivityApproximationSettings::APPROXIMATION::MATRIX_EXPONENTIAL);
+        dt, exampleSystem, core::SensitivityApproximationSettings<double>::APPROXIMATION::MATRIX_EXPONENTIAL);
 
     // define cost function matrices
     StateMatrix<state_dim> Q;

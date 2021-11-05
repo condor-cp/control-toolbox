@@ -48,19 +48,19 @@ TEST(LinearSystemsTest, NLOCSolverTest)
     initState(1) = 1.0;
 
     // provide algorithm settings
-    NLOptConSettings<SCALAR> nloc_settings;
+    NLOptConSettings<double> nloc_settings;
     nloc_settings.epsilon = 0.0;
     nloc_settings.recordSmallestEigenvalue = false;
     nloc_settings.fixedHessianCorrection = false;
     nloc_settings.dt = 0.01;
-    nloc_settings.discretization = NLOptConSettings<SCALAR>::APPROXIMATION::FORWARD_EULER;  // default approximation
-    nloc_settings.lqocp_solver = NLOptConSettings<SCALAR>::LQOCP_SOLVER::GNRICCATI_SOLVER;
+    nloc_settings.discretization = NLOptConSettings<double>::APPROXIMATION::FORWARD_EULER;  // default approximation
+    nloc_settings.lqocp_solver = NLOptConSettings<double>::LQOCP_SOLVER::GNRICCATI_SOLVER;
     nloc_settings.printSummary = false;
 
     // loop through all solver classes
-    for (int algClass = 0; algClass < NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::NUM_TYPES; algClass++)
+    for (int algClass = 0; algClass < NLOptConSettings<double>::NLOCP_ALGORITHM::NUM_TYPES; algClass++)
     {
-        nloc_settings.nlocp_algorithm = static_cast<NLOptConSettings<SCALAR>::NLOCP_ALGORITHM>(algClass);
+        nloc_settings.nlocp_algorithm = static_cast<NLOptConSettings<double>::NLOCP_ALGORITHM>(algClass);
 
         // switch line search on or off
         for (int toggleLS = 0; toggleLS <= 1; toggleLS++)
@@ -77,7 +77,7 @@ TEST(LinearSystemsTest, NLOCSolverTest)
                 {
                     nloc_settings.K_shot = kshot;
 
-                    if (kshot > 1 && nloc_settings.nlocp_algorithm == NLOptConSettings<SCALAR>::NLOCP_ALGORITHM::ILQR)
+                    if (kshot > 1 && nloc_settings.nlocp_algorithm == NLOptConSettings<double>::NLOCP_ALGORITHM::ILQR)
                         continue;  // proceed to next test case
 
                     // toggle sensitivity integrator

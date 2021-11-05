@@ -29,7 +29,7 @@ void timeSingleSolve(size_t N, std::vector<std::vector<double>>& loggedSolveTime
     std::shared_ptr<LQOCSolver<state_dim, control_dim>> gnRiccatiSolver(new GNRiccatiSolver<state_dim, control_dim>());
     std::vector<std::string> solverNames = {"Riccati", "HPIPM"};
 
-    NLOptConSettings<SCALAR> solverSettings;
+    NLOptConSettings<double> solverSettings;
     solverSettings.fixedHessianCorrection = true;
     solverSettings.epsilon = 0;
     solverSettings.recordSmallestEigenvalue = false;
@@ -53,7 +53,7 @@ void timeSingleSolve(size_t N, std::vector<std::vector<double>>& loggedSolveTime
     std::shared_ptr<core::LinearSystem<state_dim, control_dim>> exampleSystem(
         new example::MIMOIntegratorLinear<state_dim, control_dim>());
     core::SensitivityApproximation<state_dim, control_dim> discreteExampleSystem(
-        dt, exampleSystem, core::SensitivityApproximationSettings::APPROXIMATION::MATRIX_EXPONENTIAL);
+        dt, exampleSystem, core::SensitivityApproximationSettings<double>::APPROXIMATION::MATRIX_EXPONENTIAL);
 
     ct::core::ControlVector<control_dim> u0;
     u0.setZero();
