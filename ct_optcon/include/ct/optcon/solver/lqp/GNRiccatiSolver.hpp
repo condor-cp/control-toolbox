@@ -45,6 +45,7 @@ public:
     GNRiccatiSolver(int N);
 
     virtual void solve() override;
+    virtual void solve_robust();  // Test
 
     virtual void initializeAndAllocate() override;
 
@@ -101,6 +102,20 @@ protected:
 #ifdef MATLAB_FULL_LOG
     matlab::MatFile matFile_;
 #endif  //MATLAB
+};
+
+// Exception to handle negative eigenvalue. TODO : Move to a dedicated file.
+class NegativeEigenvalueExcept : virtual public std::exception
+{
+protected:
+    std::string error_message;  ///< Error message
+
+public:
+    explicit NegativeEigenvalueExcept(const std::string& msg) : error_message(msg) {}
+    virtual ~NegativeEigenvalueExcept() throw() {}
+
+    // Returns a pointer to the (constant) error description.
+    virtual const char* what() const throw() { return error_message.c_str(); }
 };
 
 

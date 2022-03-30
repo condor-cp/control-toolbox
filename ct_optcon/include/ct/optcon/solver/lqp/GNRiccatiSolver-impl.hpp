@@ -27,8 +27,34 @@ GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::GNRiccatiSolver(int N)
 template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
 void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::solve()
 {
-    for (int i = this->lqocProblem_->getNumberOfStages() - 1; i >= 0; i--)
-        solveSingleStage(i);
+    solve_robust();
+    // for (int i = this->lqocProblem_->getNumberOfStages() - 1; i >= 0; i--)
+    //     solveSingleStage(i);
+}
+
+template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
+void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::solve_robust()
+{
+    while (true)
+    {
+        try
+        {
+            for (int i = this->lqocProblem_->getNumberOfStages() - 1; i >= 0; i--)
+                solveSingleStage(i);
+            settings_.epsilon = std::max(settings_.epsilon / 2., 1e-6);
+            std::cout << "updated settings_.epsilon after success : " << settings_.epsilon << '\n';
+            break;
+        } catch (const NegativeEigenvalueExcept& e)
+        {
+            std::cout << e.what() << '\n';
+            settings_.epsilon = settings_.epsilon * 2.;
+            std::cout << "updated settings_.epsilon before retry : " << settings_.epsilon << '\n';
+        } catch (const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+            break;
+        }
+    }
 }
 
 
@@ -193,6 +219,9 @@ void GNRiccatiSolver<STATE_DIM, CONTROL_DIM, SCALAR>::designController(size_t k)
             const ControlVector& lambda = eigenvalueSolver_.eigenvalues();
 
             smallestEigenvalue_ = std::min(smallestEigenvalue_, lambda.minCoeff());
+            if (smallestEigenvalue_ <= 0.0)
+                throw NegativeEigenvalueExcept("Negative eigenvalue found");
+
 
             // Corrected Eigenvalue Matrix
             ControlMatrix D = ControlMatrix::Zero();
