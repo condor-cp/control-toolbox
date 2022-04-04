@@ -1049,8 +1049,6 @@ bool NLOCBackendBase<STATE_DIM, CONTROL_DIM, P_DIM, V_DIM, SCALAR, CONTINUOUS>::
                       (e_box_norm_ + e_gen_norm_) * settings_.meritFunctionRhoConstraints;
         lowestCostPrevious = lowestCost_;
 
-        resetDefects();
-
 
         if (settings_.lineSearchSettings.debugPrint)
         {
