@@ -152,6 +152,8 @@ void HPIPMInterface<STATE_DIM, CONTROL_DIM>::initializeAndAllocate()
     ::d_ocp_qp_ipm_arg_set_default(mode_, &arg_);
     ::d_ocp_qp_ipm_arg_set_iter_max(&settings_.lqoc_solver_settings.num_lqoc_iterations, &arg_);
     ::d_ocp_qp_ipm_arg_set_reg_prim(&settings_.lqoc_solver_settings.hpipm_hessian_reg, &arg_);
+    if (!std::isnan(settings_.lqoc_solver_settings.mu0))
+        ::d_ocp_qp_ipm_arg_set_mu0(&settings_.lqoc_solver_settings.mu0, &arg_);
 
     // create workspace
     int ipm_size = ::d_ocp_qp_ipm_ws_memsize(&dim_, &arg_);

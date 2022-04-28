@@ -39,5 +39,6 @@ ilqr
         num_lqoc_iterations  	50
         hpipm_mode_str          SPEED
         hpipm_hessian_reg       1e-6
+        mu0                     10
     }
 }

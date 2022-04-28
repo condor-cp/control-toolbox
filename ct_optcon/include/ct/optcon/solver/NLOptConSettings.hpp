@@ -155,7 +155,11 @@ struct LQOCSolverSettings
 {
 public:
     LQOCSolverSettings()
-        : lqoc_debug_print(false), num_lqoc_iterations(10), hpipm_mode_str("SPEED"), hpipm_hessian_reg(1e-15)
+        : lqoc_debug_print(false),
+          num_lqoc_iterations(10),
+          hpipm_mode_str("SPEED"),
+          hpipm_hessian_reg(1e-15),
+          mu0(std::numeric_limits<double>::quiet_NaN())
     {
     }
 
@@ -165,6 +169,7 @@ public:
     // Stored as string and not as hpipm_mode enum because HPIPM is not a compulsory dependency.
     //(see https://github.com/giaf/hpipm/blob/f38a216c5a9f916682cd543f8992a594323ad202/ocp_qp/x_ocp_qp_ipm.c#L69)
     double hpipm_hessian_reg;  // HPIPM specific : regularization added to hessian diagonal
+    double mu0;                // HPIPM specific : initial value of relaxed KKT condition on lagrangian multipliers
 
     void print() const
     {
@@ -204,6 +209,12 @@ public:
         try
         {
             hpipm_hessian_reg = pt.get<double>(ns + ".hpipm_hessian_reg");
+        } catch (...)
+        {
+        }
+        try
+        {
+            mu0 = pt.get<double>(ns + ".mu0");
         } catch (...)
         {
         }
