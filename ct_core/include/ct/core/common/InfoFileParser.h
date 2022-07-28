@@ -120,6 +120,7 @@ void loadMatrix(const std::string& filename,
     boost::property_tree::read_info(filename, pt);
 
     double scaling = pt.get<double>(ns + matrixName + ".scaling", 1);
+    double diagonal = pt.get<double>(ns + matrixName + ".diagonal", 0);
 
     for (size_t i = 0; i < rows; i++)
     {
@@ -128,6 +129,8 @@ void loadMatrix(const std::string& filename,
             matrix(i, j) =
                 scaling *
                 pt.get<double>(ns + matrixName + "." + "(" + std::to_string(i) + "," + std::to_string(j) + ")", 0.0);
+            if (i == j)
+                matrix(i, j) += scaling * diagonal;
         }
     }
 }
