@@ -64,14 +64,20 @@ void loadScalarOptional(const std::string& filename,
  * \brief Loads a matrix/vector file from an .info file
  *
  * This function supports sparse storage of vectors matrices, i.e. all entries not found in the
- * .info file are assumed to be zero. Also, it looks for a parameter called "scaling" (defaults
- * to 1) and multiplies all stored values. The example file:
+ * .info file are assumed to be zero. Also, it looks for parameters called "scaling" (defaults
+ * to 1), "fill" (defaults to 0) and "diagonal". The matrix is filled with the following logic : 
+ * all fields are filled with the "fill" value, or the "diagonal" value (if specified) for diagonal elements. 
+ * All the sparse elements specified will override. All the elements of the matrix are then scaled 
+ * (multiplied by the "scaling" value).
+ * The example file:
  *
  * * \code{.txt}
  * M
  * {
  * 		scaling 2.5
- *
+ *      fill -1.0
+ *      diagonal 3.0
+ * 
  * 		(0,0) 10.0
  * 		(1,1) 20.0
  * 		(2,2) 0.0
@@ -84,15 +90,15 @@ void loadScalarOptional(const std::string& filename,
  * \f[
  * 		M = 2.5 \cdot
  * 		\begin{pmatrix}
- *         10 & 0.0 & 0.0 \\
- *         0.0 & 2.0 & 0.0 \\
- *         1.0 & 0.0 & 0.0
+ *         10 & -1.0 & -1.0 \\
+ *         -1.0 & 2.0 & -1.0 \\
+ *         1.0 & -1.0 & 3.0
  *     \end{pmatrix}
  *     =
  *     \begin{pmatrix}
- *         25 & 0.0 & 0.0 \\
- *         0.0 & 50.0 & 0.0 \\
- *         25.0 & 0.0 & 0.0
+ *         25 & -2.5 & -2.5 \\
+ *         -2.5 & 50.0 & -2.5 \\
+ *         -2.5 & -2.5 & 7.5
  *     \end{pmatrix}
  * \f]
  *
@@ -120,19 +126,24 @@ void loadMatrix(const std::string& filename,
     boost::property_tree::read_info(filename, pt);
 
     double scaling = pt.get<double>(ns + matrixName + ".scaling", 1);
-    double diagonal = pt.get<double>(ns + matrixName + ".diagonal", 0);
+    double fill = pt.get<double>(ns + matrixName + ".fill", 0);
+    boost::optional<double> specified_diagonal = pt.get_optional<double>(ns + matrixName + ".diagonal");
 
     for (size_t i = 0; i < rows; i++)
     {
         for (size_t j = 0; j < cols; j++)
         {
-            matrix(i, j) =
-                scaling *
-                pt.get<double>(ns + matrixName + "." + "(" + std::to_string(i) + "," + std::to_string(j) + ")", 0.0);
-            if (i == j)
-                matrix(i, j) += scaling * diagonal;
+            if (boost::optional<double> specified_value = pt.get_optional<double>(
+                    ns + matrixName + "." + "(" + std::to_string(i) + "," + std::to_string(j) + ")"))
+                matrix(i, j) = scaling * *specified_value;
+            else
+            {
+                matrix(i, j) = scaling * fill;
+                if (i == j && specified_diagonal)
+                    matrix(i, j) = scaling * *specified_diagonal;
+            }
         }
     }
 }
-}
-}
+}  // namespace core
+}  // namespace ct
