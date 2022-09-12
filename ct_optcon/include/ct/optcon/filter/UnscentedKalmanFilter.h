@@ -100,6 +100,12 @@ public:
         const ct::optcon::EstimatorStateBoxConstraint<STATE_DIM, SCALAR>& box_constraint =
             ct::optcon::EstimatorStateBoxConstraint<STATE_DIM, SCALAR>());
 
+    //! Copy constructor.
+    UnscentedKalmanFilter(const UnscentedKalmanFilter& other);
+
+    //! Clone operator
+    virtual UnscentedKalmanFilter* clone() const override { return new UnscentedKalmanFilter(*this); }
+
     //! Estimator predict method.
     const state_vector_t& predict(const control_vector_t& u,
         const ct::core::Time& dt,

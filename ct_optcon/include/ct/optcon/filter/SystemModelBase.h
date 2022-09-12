@@ -28,6 +28,9 @@ public:
     //! Virtual destructor.
     virtual ~SystemModelBase() = default;
 
+    //! Clone operator
+    virtual SystemModelBase* clone() const = 0;
+
     //! Propagates the system giving the next state as output.
     virtual state_vector_t computeDynamics(const state_vector_t& state,
         const control_vector_t& control,

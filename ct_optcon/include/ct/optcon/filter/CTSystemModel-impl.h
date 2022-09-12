@@ -18,13 +18,27 @@ CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::CTSystemModel(
       constantController_(new ct::core::ConstantController<STATE_DIM, CONTROL_DIM, SCALAR>()),
       sensApprox_(sensApprox),
       dFdv_(dFdv),
-      integrator_(system_, intType)
+      integrator_(system_, intType),
+      intType_(intType)
 {
     if (!system_)
         throw std::runtime_error("CTSystemModel: System not initialized!");
 
     // hand over constant controller for dynamics evaluation with known control inputs to the system.
     system_->setController(constantController_);
+}
+
+template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
+CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::CTSystemModel(const CTSystemModel& other)
+    : system_(std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>>(other.system_->clone())),
+      constantController_(std::shared_ptr<ct::core::ConstantController<STATE_DIM, CONTROL_DIM, SCALAR>>(
+          other.constantController_->clone())),
+      sensApprox_(std::shared_ptr<SensitivityApprox_t>(other.sensApprox_->clone())),
+      dFdv_(other.dFdv_),
+      integrator_(std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>>(other.system_->clone()),
+          other.intType_),
+      intType_(other.intType_)
+{
 }
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>

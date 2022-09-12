@@ -39,6 +39,12 @@ public:
     //! Constructor.
     LTIMeasurementModel(const output_state_matrix_t& C, const output_matrix_t& dHdw = output_matrix_t::Zero());
 
+    //! Copy constructor.
+    LTIMeasurementModel(const LTIMeasurementModel& other);
+
+    //! Clone operator.
+    virtual LTIMeasurementModel* clone() const override { return new LTIMeasurementModel(*this); }
+
     //! Calculates the measurement from the current state.
     output_vector_t computeMeasurement(const state_vector_t& state, const Time_t& t = 0) override;
 

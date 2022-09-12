@@ -24,6 +24,14 @@ LTIMeasurementModel<OUTPUT_DIM, STATE_DIM, SCALAR>::LTIMeasurementModel(
 }
 
 template <size_t OUTPUT_DIM, size_t STATE_DIM, typename SCALAR>
+LTIMeasurementModel<OUTPUT_DIM, STATE_DIM, SCALAR>::LTIMeasurementModel(
+    const LTIMeasurementModel<OUTPUT_DIM, STATE_DIM, SCALAR>& other)
+    : dHdx_(other.dHdx_), dHdw_(other.dHdw_)
+{
+}
+
+
+template <size_t OUTPUT_DIM, size_t STATE_DIM, typename SCALAR>
 typename LTIMeasurementModel<OUTPUT_DIM, STATE_DIM, SCALAR>::output_vector_t
 LTIMeasurementModel<OUTPUT_DIM, STATE_DIM, SCALAR>::computeMeasurement(
     const typename LTIMeasurementModel<OUTPUT_DIM, STATE_DIM, SCALAR>::state_vector_t& state,

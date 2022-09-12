@@ -30,6 +30,13 @@ ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::ExtendedKalman
 }
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, size_t OUTPUT_DIM, typename SCALAR>
+ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::ExtendedKalmanFilter(
+    const ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>& other)
+    : Base(other), Q_(other.Q_), R_(other.R_), P_(other.P_)
+{
+}
+
+template <size_t STATE_DIM, size_t CONTROL_DIM, size_t OUTPUT_DIM, typename SCALAR>
 auto ExtendedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::predict(const control_vector_t& u,
     const ct::core::Time& dt,
     const ct::core::Time& t) -> const state_vector_t&

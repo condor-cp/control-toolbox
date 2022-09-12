@@ -45,6 +45,12 @@ public:
         std::shared_ptr<LinearMeasurementModel<OUTPUT_DIM, STATE_DIM, SCALAR>> h,
         const ExtendedKalmanFilterSettings<STATE_DIM, SCALAR>& ekf_settings);
 
+    //! Copy constructor
+    ExtendedKalmanFilter(const ExtendedKalmanFilter& other);
+
+    //! Clone operator
+    virtual ExtendedKalmanFilter* clone() const override { return new ExtendedKalmanFilter(*this); }
+
     //! Estimator predict method.
     const state_vector_t& predict(const control_vector_t& u,
         const ct::core::Time& dt,
@@ -60,6 +66,7 @@ public:
     void setQ(const state_matrix_t& Q) { Q_ = Q; }
     //! update R matrix
     void setR(const output_matrix_t& R) { R_ = R; }
+
 protected:
     //! Filter Q matrix.
     state_matrix_t Q_;

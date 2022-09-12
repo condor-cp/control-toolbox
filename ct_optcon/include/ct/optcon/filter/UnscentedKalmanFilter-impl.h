@@ -82,6 +82,15 @@ UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::UnscentedKalm
 }
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, size_t OUTPUT_DIM, typename SCALAR>
+UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::UnscentedKalmanFilter(
+    const UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>& other)
+    : Base(other), alpha_(other.alpha_), beta_(other.beta_), kappa_(other.kappa_), P_(other.P_)
+{
+    computeWeights();
+}
+
+
+template <size_t STATE_DIM, size_t CONTROL_DIM, size_t OUTPUT_DIM, typename SCALAR>
 auto UnscentedKalmanFilter<STATE_DIM, CONTROL_DIM, OUTPUT_DIM, SCALAR>::predict(const control_vector_t& u,
     const ct::core::Time& dt,
     const ct::core::Time& t) -> const state_vector_t&

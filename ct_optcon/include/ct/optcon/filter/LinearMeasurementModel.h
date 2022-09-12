@@ -24,12 +24,14 @@ class LinearMeasurementModel : public MeasurementModelBase<OUTPUT_DIM, STATE_DIM
 {
 public:
     using Base = MeasurementModelBase<OUTPUT_DIM, STATE_DIM, SCALAR>;
-    using typename Base::state_vector_t;
     using typename Base::output_vector_t;
+    using typename Base::state_vector_t;
     using typename Base::Time_t;
     using output_matrix_t = ct::core::OutputMatrix<OUTPUT_DIM, SCALAR>;
     using output_state_matrix_t = ct::core::OutputStateMatrix<OUTPUT_DIM, STATE_DIM, SCALAR>;
 
+    //! Clone operator
+    virtual LinearMeasurementModel* clone() const = 0;
     //! Calculates the measurement from the current state.
     virtual output_vector_t computeMeasurement(const state_vector_t& state, const Time_t& t = 0) = 0;
     //! Computes the derivative of the output w.r.t. the state.
@@ -38,5 +40,5 @@ public:
     virtual output_matrix_t computeDerivativeNoise(const state_vector_t& state, const Time_t& t) = 0;
 };
 
-}  // optcon
-}  // ct
+}  // namespace optcon
+}  // namespace ct

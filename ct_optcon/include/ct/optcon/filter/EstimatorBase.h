@@ -47,6 +47,9 @@ public:
     }
     virtual ~EstimatorBase() = default;
 
+    //! Clone operator
+    virtual EstimatorBase* clone() const = 0;
+
     //! Estimator predict method.
     virtual const state_vector_t& predict(const control_vector_t& u,
         const ct::core::Time& dt,
