@@ -67,10 +67,7 @@ public:
         SCALAR t) override;
 
     //! update the system model
-    void setControlledSystem(std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>> system)
-    {
-        system_ = system;
-    }
+    void setControlledSystem(std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>> system);
 
 protected:
     //! The underlying CT system.

@@ -35,8 +35,7 @@ CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::CTSystemModel(const CTSystemModel
           other.constantController_->clone())),
       sensApprox_(std::shared_ptr<SensitivityApprox_t>(other.sensApprox_->clone())),
       dFdv_(other.dFdv_),
-      integrator_(std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>>(other.system_->clone()),
-          other.intType_),
+      integrator_(system_, other.intType_),
       intType_(other.intType_)
 {
 }
@@ -82,6 +81,15 @@ auto CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::computeDerivativeNoise(const
 {
     return dFdv_;
 }
+
+template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
+void CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::setControlledSystem(
+    std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>> system)
+{
+    system_ = system;
+    integrator_ = ct::core::Integrator<STATE_DIM, SCALAR>(system_, intType_);
+}
+
 
 }  // namespace optcon
 }  // namespace ct
