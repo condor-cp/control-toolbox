@@ -200,5 +200,13 @@ void Integrator<STATE_DIM, SCALAR>::setupSystem()
 
     reset();
 }
+
+template <size_t STATE_DIM, typename SCALAR>
+void Integrator<STATE_DIM, SCALAR>::setSystem(std::shared_ptr<System<STATE_DIM, SCALAR>> system)
+{
+    system_ = system;
+    setupSystem();
+}
+
 }  // namespace core
 }  // namespace ct

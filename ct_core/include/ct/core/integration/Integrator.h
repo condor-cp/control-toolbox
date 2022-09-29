@@ -229,6 +229,8 @@ public:
         StateVectorArray<STATE_DIM, SCALAR>& stateTrajectory,
         SCALAR dtInitial = SCALAR(0.01));
 
+    void setSystem(std::shared_ptr<System<STATE_DIM, SCALAR>> system);
+
 private:
     /**
 	 * @brief      Initializes the custom ct steppers

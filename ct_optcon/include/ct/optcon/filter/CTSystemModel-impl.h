@@ -30,10 +30,9 @@ CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::CTSystemModel(
 
 template <size_t STATE_DIM, size_t CONTROL_DIM, typename SCALAR>
 CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::CTSystemModel(const CTSystemModel& other)
-    : system_(std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>>(other.system_->clone())),
-      constantController_(std::shared_ptr<ct::core::ConstantController<STATE_DIM, CONTROL_DIM, SCALAR>>(
-          other.constantController_->clone())),
-      sensApprox_(std::shared_ptr<SensitivityApprox_t>(other.sensApprox_->clone())),
+    : system_(other.system_->clone()),
+      constantController_(other.constantController_->clone()),
+      sensApprox_(other.sensApprox_->clone()),
       dFdv_(other.dFdv_),
       integrator_(system_, other.intType_),
       intType_(other.intType_)
@@ -87,7 +86,7 @@ void CTSystemModel<STATE_DIM, CONTROL_DIM, SCALAR>::setControlledSystem(
     std::shared_ptr<ct::core::ControlledSystem<STATE_DIM, CONTROL_DIM, SCALAR>> system)
 {
     system_ = system;
-    integrator_ = ct::core::Integrator<STATE_DIM, SCALAR>(system_, intType_);
+    integrator_.setSystem(system_);
 }
 
 
