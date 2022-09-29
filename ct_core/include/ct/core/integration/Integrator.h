@@ -83,6 +83,9 @@ public:
         const IntegrationType& intType,
         const EventHandlerPtr& eventHandler);
 
+    Integrator(const Integrator& other);
+    Integrator* clone() const { return new Integrator(*this); }
+
     /**
 	 * @brief      Changes the integration type
 	 *

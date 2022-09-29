@@ -30,6 +30,13 @@ Integrator<STATE_DIM, SCALAR>::Integrator(const std::shared_ptr<System<STATE_DIM
 }
 
 template <size_t STATE_DIM, typename SCALAR>
+Integrator<STATE_DIM, SCALAR>::Integrator(const Integrator<STATE_DIM, SCALAR>& other) : system_(other.system_.clone())
+{
+    setupSystem();
+}
+
+
+template <size_t STATE_DIM, typename SCALAR>
 void Integrator<STATE_DIM, SCALAR>::changeIntegrationType(const IntegrationType& intType)
 {
     initializeCTSteppers(intType);
@@ -183,8 +190,8 @@ void Integrator<STATE_DIM, SCALAR>::retrieveStateVectorArrayFromObserver(
 template <size_t STATE_DIM, typename SCALAR>
 void Integrator<STATE_DIM, SCALAR>::setupSystem()
 {
-    systemFunction_ = [this](
-        const Eigen::Matrix<SCALAR, STATE_DIM, 1>& x, Eigen::Matrix<SCALAR, STATE_DIM, 1>& dxdt, SCALAR t) {
+    systemFunction_ = [this](const Eigen::Matrix<SCALAR, STATE_DIM, 1>& x, Eigen::Matrix<SCALAR, STATE_DIM, 1>& dxdt,
+                          SCALAR t) {
         const StateVector<STATE_DIM, SCALAR>& xState(static_cast<const StateVector<STATE_DIM, SCALAR>&>(x));
         StateVector<STATE_DIM, SCALAR>& dxdtState(static_cast<StateVector<STATE_DIM, SCALAR>&>(dxdt));
         system_->computeDynamics(xState, t, dxdtState);
@@ -193,5 +200,5 @@ void Integrator<STATE_DIM, SCALAR>::setupSystem()
 
     reset();
 }
-}
-}
+}  // namespace core
+}  // namespace ct
